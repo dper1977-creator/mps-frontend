@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Donasi dan Relawan</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <i class="fas fa-hand-holding-heart"></i>
+      <h1>Donasi & Relawan</h1>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-page="donasi">
+        <i class="fas fa-donate"></i> Donasi
+      </button>
+      <button class="nav-btn" data-page="relawan">
+        <i class="fas fa-users"></i> Relawan
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Halaman Donasi -->
+    <section id="donasi-page" class="page active">
+      <div class="page-header">
+        <h2>Manajemen Donasi</h2>
+        <div class="actions">
+          <button id="add-donasi-btn" class="btn primary">
+            <i class="fas fa-plus"></i> Tambah Donasi
+          </button>
+          <button id="stats-donasi-btn" class="btn secondary">
+            <i class="fas fa-chart-bar"></i> Statistik
+          </button>
+        </div>
+      </div>
+
+      <div class="search-container">
+        <input type="text" id="search-donasi" placeholder="Cari donatur...">
+        <button id="search-donasi-btn" class="btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table id="donasi-table">
+          <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Donatur</th>
+            <th>Alamat</th>
+            <th>No HP</th>
+            <th>Nominal</th>
+            <th>Jenis Donasi</th>
+            <th>Aksi</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Data akan diisi oleh JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Halaman Relawan -->
+    <section id="relawan-page" class="page">
+      <div class="page-header">
+        <h2>Manajemen Relawan</h2>
+        <div class="actions">
+          <button id="add-relawan-btn" class="btn primary">
+            <i class="fas fa-plus"></i> Tambah Relawan
+          </button>
+          <button id="team-relawan-btn" class="btn secondary">
+            <i class="fas fa-users-cog"></i> Per Tim
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table id="relawan-table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nama Relawan</th>
+            <th>No ID</th>
+            <th>No HP</th>
+            <th>Alamat</th>
+            <th>Keterangan</th>
+            <th>Aksi</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Data akan diisi oleh JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal untuk Form Donasi -->
+  <div id="donasi-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="donasi-modal-title">Tambah Donasi</h3>
+        <span class="close">&times;</span>
+      </div>
+      <form id="donasi-form">
+        <input type="hidden" id="donasi-id">
+        <div class="form-group">
+          <label for="nama">Nama Donatur</label>
+          <input type="text" id="nama" required>
+        </div>
+        <div class="form-group">
+          <label for="alamat">Alamat</label>
+          <input type="text" id="alamat">
+        </div>
+        <div class="form-group">
+          <label for="no_hp">No HP</label>
+          <input type="text" id="no_hp">
+        </div>
+        <div class="form-group">
+          <label for="nominal">Nominal</label>
+          <input type="number" id="nominal" required>
+        </div>
+        <div class="form-group">
+          <label for="id_jenis">Jenis Donasi</label>
+          <select id="id_jenis" required>
+            <option value="">Pilih Jenis Donasi</option>
+            <!-- Akan diisi oleh JavaScript -->
+          </select>
+        </div>
+        <button type="submit" class="btn primary">Simpan</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal untuk Form Relawan -->
+  <div id="relawan-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="relawan-modal-title">Tambah Relawan</h3>
+        <span class="close">&times;</span>
+      </div>
+      <form id="relawan-form">
+        <input type="hidden" id="relawan-id">
+        <div class="form-group">
+          <label for="no_id">No ID</label>
+          <input type="text" id="no_id" required>
+        </div>
+        <div class="form-group">
+          <label for="nama_relawan">Nama Relawan</label>
+          <input type="text" id="nama_relawan" required>
+        </div>
+        <div class="form-group">
+          <label for="no_hp_relawan">No HP</label>
+          <input type="text" id="no_hp_relawan">
+        </div>
+        <div class="form-group">
+          <label for="alamat_relawan">Alamat</label>
+          <input type="text" id="alamat_relawan">
+        </div>
+        <div class="form-group">
+          <label for="keterangan">Keterangan</label>
+          <input type="text" id="keterangan">
+        </div>
+        <button type="submit" class="btn primary">Simpan</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal untuk Statistik Donasi -->
+  <div id="stats-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Statistik Donasi</h3>
+        <span class="close">&times;</span>
+      </div>
+      <div class="stats-container">
+        <table id="stats-table">
+          <thead>
+          <tr>
+            <th>Jenis Donasi</th>
+            <th>Jumlah Donasi</th>
+            <th>Total Nominal</th>
+            <th>Rata-rata</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Data akan diisi oleh JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal untuk Relawan per Tim -->
+  <div id="team-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Relawan per Tim</h3>
+        <span class="close">&times;</span>
+      </div>
+      <div class="team-container">
+        <table id="team-table">
+          <thead>
+          <tr>
+            <th>Tim</th>
+            <th>Jumlah Relawan</th>
+            <th>Daftar Relawan</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Data akan diisi oleh JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2023 Sistem Donasi dan Relawan. All rights reserved.</p>
+  </footer>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/donasi.js"></script>
+<script src="js/relawan.js"></script>
+</body>
+</html>
