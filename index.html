@@ -3,9 +3,351 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Donasi dan Relawan</title>
+  <title>Muda Peduli Saudara</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* CSS Tambahan untuk Tampilan Menarik */
+    :root {
+      --primary-color: #4e73df;
+      --secondary-color: #858796;
+      --success-color: #1cc88a;
+      --info-color: #36b9cc;
+      --warning-color: #f6c23e;
+      --danger-color: #e74a3b;
+      --light-color: #f8f9fc;
+      --dark-color: #5a5c69;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8f9fc;
+      color: #5a5c69;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: white;
+      box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo i {
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-btn {
+      background-color: transparent;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.35rem;
+      font-weight: 600;
+      color: var(--dark-color);
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-btn:hover {
+      background-color: var(--light-color);
+      color: var(--primary-color);
+    }
+
+    .nav-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    main {
+      flex: 1;
+      padding: 1.5rem;
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .page-header h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--dark-color);
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.35rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .btn.primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn.primary:hover {
+      background-color: #2e59d9;
+    }
+
+    .btn.secondary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    .btn.secondary:hover {
+      background-color: #6c6e7f;
+    }
+
+    .search-container {
+      display: flex;
+      margin-bottom: 1.5rem;
+      max-width: 400px;
+    }
+
+    .search-container input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #d1d3e2;
+      border-radius: 0.35rem 0 0 0.35rem;
+      font-size: 0.9rem;
+    }
+
+    .search-container button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0 1rem;
+      border-radius: 0 0.35rem 0.35rem 0;
+      cursor: pointer;
+    }
+
+    .table-container {
+      background-color: white;
+      border-radius: 0.35rem;
+      box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background-color: var(--light-color);
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 700;
+      color: var(--dark-color);
+      border-bottom: 1px solid #e3e6f0;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #e3e6f0;
+    }
+
+    tbody tr:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 0;
+      border-radius: 0.35rem;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      animation: slideIn 0.3s;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid #e3e6f0;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--dark-color);
+    }
+
+    .close {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close:hover {
+      color: var(--danger-color);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d3e2;
+      border-radius: 0.35rem;
+      font-size: 0.9rem;
+    }
+
+    .stats-container,
+    .team-container {
+      padding: 1.5rem;
+    }
+
+    footer {
+      background-color: white;
+      padding: 1rem;
+      text-align: center;
+      border-top: 1px solid #e3e6f0;
+      color: var(--secondary-color);
+    }
+
+    .action-btn {
+      padding: 0.5rem 0.75rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .edit-btn {
+      background-color: var(--warning-color);
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background-color: #dda20a;
+    }
+
+    .delete-btn {
+      background-color: var(--danger-color);
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -13,14 +355,14 @@
   <header>
     <div class="logo">
       <i class="fas fa-hand-holding-heart"></i>
-      <h1>Donasi & Relawan</h1>
+      <h1>Yayasan Muda Peduli Saudara</h1>
     </div>
     <nav>
       <button class="nav-btn active" data-page="donasi">
         <i class="fas fa-donate"></i> Donasi
       </button>
       <button class="nav-btn" data-page="relawan">
-        <i class="fas fa-users"></i> Relawan
+        <i class="fas fa-hands-helping"></i> Relawan
       </button>
     </nav>
   </header>
@@ -82,6 +424,13 @@
         </div>
       </div>
 
+      <div class="search-container">
+        <input type="text" id="search-relawan" placeholder="Cari relawan...">
+        <button id="search-relawan-btn" class="btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
       <div class="table-container">
         <table id="relawan-table">
           <thead>
@@ -132,7 +481,10 @@
           <label for="id_jenis">Jenis Donasi</label>
           <select id="id_jenis" required>
             <option value="">Pilih Jenis Donasi</option>
-            <!-- Akan diisi oleh JavaScript -->
+            <option value="1">Uang</option>
+            <option value="2">Makanan</option>
+            <option value="3">Pakaian</option>
+            <option value="4">Obat-obatan</option>
           </select>
         </div>
         <button type="submit" class="btn primary">Simpan</button>
@@ -192,7 +544,30 @@
           </tr>
           </thead>
           <tbody>
-          <!-- Data akan diisi oleh JavaScript -->
+          <tr>
+            <td>Uang</td>
+            <td>25</td>
+            <td>Rp 12.500.000</td>
+            <td>Rp 500.000</td>
+          </tr>
+          <tr>
+            <td>Makanan</td>
+            <td>15</td>
+            <td>Rp 7.500.000</td>
+            <td>Rp 500.000</td>
+          </tr>
+          <tr>
+            <td>Pakaian</td>
+            <td>10</td>
+            <td>Rp 5.000.000</td>
+            <td>Rp 500.000</td>
+          </tr>
+          <tr>
+            <td>Obat-obatan</td>
+            <td>8</td>
+            <td>Rp 4.000.000</td>
+            <td>Rp 500.000</td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -216,7 +591,21 @@
           </tr>
           </thead>
           <tbody>
-          <!-- Data akan diisi oleh JavaScript -->
+          <tr>
+            <td>Tim Logistik</td>
+            <td>5</td>
+            <td>Andi, Budi, Cici, Dedi, Eka</td>
+          </tr>
+          <tr>
+            <td>Tim Kesehatan</td>
+            <td>4</td>
+            <td>Fani, Gani, Hani, Iman</td>
+          </tr>
+          <tr>
+            <td>Tim Pendidikan</td>
+            <td>6</td>
+            <td>Joko, Kiki, Lili, Mimi, Nani, Oki</td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -225,12 +614,179 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2023 Sistem Donasi dan Relawan. All rights reserved.</p>
+    <p>&copy; 2026 Yayasan Muda Peduli Saudara. All rights reserved.</p>
   </footer>
 </div>
 
-<script src="js/api.js"></script>
-<script src="js/donasi.js"></script>
-<script src="js/relawan.js"></script>
+<script>
+  // JavaScript untuk navigasi antar halaman
+  document.addEventListener('DOMContentLoaded', function() {
+    // Navigasi antar halaman
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const pages = document.querySelectorAll('.page');
+
+    navButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const targetPage = this.getAttribute('data-page');
+
+        // Hapus kelas active dari semua tombol dan halaman
+        navButtons.forEach(btn => btn.classList.remove('active'));
+        pages.forEach(page => page.classList.remove('active'));
+
+        // Tambahkan kelas active ke tombol dan halaman yang dipilih
+        this.classList.add('active');
+        document.getElementById(`${targetPage}-page`).classList.add('active');
+
+        // Load data untuk halaman yang dipilih
+        if (targetPage === 'donasi') {
+          loadDonasiData();
+        } else if (targetPage === 'relawan') {
+          loadRelawanData();
+        }
+      });
+    });
+
+    // Modal functionality
+    const modals = document.querySelectorAll('.modal');
+    const closeButtons = document.querySelectorAll('.close');
+
+    // Open modals
+    document.getElementById('add-donasi-btn').addEventListener('click', function() {
+      document.getElementById('donasi-modal').style.display = 'block';
+    });
+
+    document.getElementById('add-relawan-btn').addEventListener('click', function() {
+      document.getElementById('relawan-modal').style.display = 'block';
+    });
+
+    document.getElementById('stats-donasi-btn').addEventListener('click', function() {
+      document.getElementById('stats-modal').style.display = 'block';
+    });
+
+    document.getElementById('team-relawan-btn').addEventListener('click', function() {
+      document.getElementById('team-modal').style.display = 'block';
+    });
+
+    // Close modals
+    closeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        this.closest('.modal').style.display = 'none';
+      });
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+
+    // Sample data loading functions
+    function loadDonasiData() {
+      const donasiTableBody = document.querySelector('#donasi-table tbody');
+      donasiTableBody.innerHTML = '';
+
+      // Sample data
+      const sampleData = [
+        { no: 1, nama: 'Ahmad Fauzi', alamat: 'Jakarta Selatan', no_hp: '08123456789', nominal: 500000, jenis: 'Uang' },
+        { no: 2, nama: 'Siti Nurhaliza', alamat: 'Bandung', no_hp: '08234567890', nominal: 750000, jenis: 'Makanan' },
+        { no: 3, nama: 'Budi Santoso', alamat: 'Surabaya', no_hp: '08345678901', nominal: 1000000, jenis: 'Pakaian' },
+        { no: 4, nama: 'Dewi Lestari', alamat: 'Yogyakarta', no_hp: '08456789012', nominal: 300000, jenis: 'Obat-obatan' },
+        { no: 5, nama: 'Eko Prasetyo', alamat: 'Semarang', no_hp: '08567890123', nominal: 600000, jenis: 'Uang' }
+      ];
+
+      sampleData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.no}</td>
+          <td>${item.nama}</td>
+          <td>${item.alamat}</td>
+          <td>${item.no_hp}</td>
+          <td>Rp ${item.nominal.toLocaleString('id-ID')}</td>
+          <td>${item.jenis}</td>
+          <td>
+            <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+        donasiTableBody.appendChild(row);
+      });
+    }
+
+    function loadRelawanData() {
+      const relawanTableBody = document.querySelector('#relawan-table tbody');
+      relawanTableBody.innerHTML = '';
+
+      // Sample data
+      const sampleData = [
+        { id: 'R001', nama: 'Andi Pratama', no_id: 'ID001', no_hp: '08123456789', alamat: 'Jakarta', keterangan: 'Tim Logistik' },
+        { id: 'R002', nama: 'Budi Santoso', no_id: 'ID002', no_hp: '08234567890', alamat: 'Bandung', keterangan: 'Tim Kesehatan' },
+        { id: 'R003', nama: 'Cici Handayani', no_id: 'ID003', no_hp: '08345678901', alamat: 'Surabaya', keterangan: 'Tim Pendidikan' },
+        { id: 'R004', nama: 'Dedi Setiawan', no_id: 'ID004', no_hp: '08456789012', alamat: 'Yogyakarta', keterangan: 'Tim Logistik' },
+        { id: 'R005', nama: 'Eka Wijaya', no_id: 'ID005', no_hp: '08567890123', alamat: 'Semarang', keterangan: 'Tim Kesehatan' }
+      ];
+
+      sampleData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.id}</td>
+          <td>${item.nama}</td>
+          <td>${item.no_id}</td>
+          <td>${item.no_hp}</td>
+          <td>${item.alamat}</td>
+          <td>${item.keterangan}</td>
+          <td>
+            <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+        relawanTableBody.appendChild(row);
+      });
+    }
+
+    // Load initial data
+    loadDonasiData();
+
+    // Search functionality
+    document.getElementById('search-donasi-btn').addEventListener('click', function() {
+      const searchTerm = document.getElementById('search-donasi').value.toLowerCase();
+      const rows = document.querySelectorAll('#donasi-table tbody tr');
+
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+      });
+    });
+
+    document.getElementById('search-relawan-btn').addEventListener('click', function() {
+      const searchTerm = document.getElementById('search-relawan').value.toLowerCase();
+      const rows = document.querySelectorAll('#relawan-table tbody tr');
+
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+      });
+    });
+
+    // Form submissions
+    document.getElementById('donasi-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Form submission logic would go here
+      alert('Data donasi berhasil disimpan!');
+      document.getElementById('donasi-modal').style.display = 'none';
+      loadDonasiData();
+    });
+
+    document.getElementById('relawan-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Form submission logic would go here
+      alert('Data relawan berhasil disimpan!');
+      document.getElementById('relawan-modal').style.display = 'none';
+      loadRelawanData();
+    });
+  });
+</script>
 </body>
 </html>
